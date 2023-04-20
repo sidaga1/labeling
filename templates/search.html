@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <body>
+        <h1>{% block title %} {{name}} namuing {% endblock %}</h1>
+        <form action="#" method="post">
+            <p>Date:</p>
+            <p><input type="date" name="date" />
+            <input type="submit" value="view images"/></p>
+        </form>
+        <form action="#" method="post">
+            <p>Location:</p>
+            <p><input type="text" name="location" />
+            <input type="submit" value="view images"/></p>
+        </form>
+        <form action="#" method="post">
+            <p>Label:</p>
+            <p><select name="label">
+                <option label="Select" value="Select"></option>
+                <option label="Drone" value="Drone"></option>
+                <option label="Bird" value="Bird"></option>
+                <option label="Person" value="Person"></option>
+                <option label="UFO" value="UFO"></option> </select>
+            <input type="submit" value="view images"/></p>
+        </form>
+        <form action="#" method="post">
+            <p>Labeler:</p>
+            <p><input type="text" name="labeler" />
+            <input type="submit" value="view images"/></p>
+        </form>
+        <form action="#" method="post">
+            <p>Radar sn:</p>
+            <p><input type="text" name="radarSN" />
+            <input type="submit" value="view images"/></p>
+        </form>
+    </body>
+{% endblock %}

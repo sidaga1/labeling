@@ -1,0 +1,16 @@
+{% extends 'viewbase.html' %}
+
+{% block content %}
+    <h1>{% block title %} {{name}} {% endblock %}</h1>
+        <p>{{test}}</p>
+    <form action="#" method="post">
+        <p>Label:</p>
+        <p><select name="label">
+            <option label="Select" value="Select"></option>
+            <option label="Drone" value="Drone"></option>
+            <option label="Bird" value="Bird"></option>
+            <option label="Person" value="Person"></option>
+            <option label="UFO" value="UFO"></option> </select>
+        <input type="submit" value="label images"/></p>
+    </form>
+{% endblock %}

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>{{name}}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+        <!-- DataGrid library CSS -->
+        <link href="datagrid.min.css" rel="stylesheet" />
+
+        <style>
+        .demo-table{
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+            font-size: 1rem;
+            margin: 2rem auto;
+            border: 1px solid #ddd;
+            border-collapse: collapse;
+            width: 600px;
+            max-width: 95%;
+        }
+        
+        .demo-table td,
+        .demo-table th{
+            padding: 1rem;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        
+        .demo-table tr:nth-child(even) td{
+            background: #f4f4f4;
+        }
+        
+        input[type="text"]{
+            border: 1px solid #ccc;
+            border-radius: 0.5rem;
+            padding: 0.3rem 0.5rem;
+        }
+        </style>
+    </head>
+    <body>
+        <table class="demo-table">
+            <thead>
+                
+                <tr>
+                    <form action="#" method="post">
+                    <th>Date
+                        <p><input type="date" name="date" /></p>
+                        {% if "date" in selected %}
+                            <p><input type="submit" name= "remove" value= {{selected[date]}}  /></p>
+                        {% endif %}
+                    </th>
+                    <th>Location
+                        <p><input type="text" name="location" /></p>
+                    </th>
+                    <th>Labels
+                        <p><select name="label">
+                        <option label="Select" value="Select"></option>
+                        <option label="Drone" value="Drone"></option>
+                        <option label="Bird" value="Bird"></option>
+                        <option label="Person" value="Person"></option>
+                        <option label="UFO" value="UFO"></option> </select></p>
+                    </th>
+                    <th>Radar SN
+                        <p><input type="text" name="radarsn" /></p>
+                    </th>
+                    <th>Camera SN
+                        <p><input type="text" name="radarsn" /></p>
+                    </th>
+                    <th>Images
+                        <input type="submit" name= "golabel" value="Label Images"/>
+                        <input type="submit" name = "filter" value="Filter"/>
+                    </th>
+                    </form>
+                </tr>
+            </thead>
+            
+            <tbody data-grid>
+                {% for x in tests %}
+                <tr data-grid-item>
+                    <td class="date">{{x[0]}}</td>
+                    <td class="location">{{x[1]}}</td>
+                    <td class="labels">{{x[2]}}</td>
+                    <td class="radarsn">{{x[3]}}</td>
+                    <td class="camerasn">{{x[4]}}</td>
+                    <td class="images"><img src="https://www.example.com/images/dinosaur.jpg" alt="Dinosaur" /></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="3">
+                        <!-- no results label -->
+                        <div
+                                data-grid-control="label"
+                                data-type="no-results"
+                                data-text="No results found.">
+                        </div>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+
+        <!-- DataGrid library JavaScript -->
+        <script src="datagrid.min.js"></script>
+
+        <script>
+            datagrid();
+        </script>
+    </body>
+</html>
