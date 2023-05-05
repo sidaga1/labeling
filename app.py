@@ -1,18 +1,19 @@
-from flask import Flask,  redirect, url_for, render_template, request, session 
+from flask import Flask,  redirect, url_for, render_template, request, session, send_file
 import requests
 
 app = Flask(__name__)
 app.secret_key = "echodyne"
+selected = {}
 
 @app.route("/", methods=["POST", "GET"])
 def login():
     session.clear()
     if request.method == "POST":
         user = request.form["nm"]
-        session["user"] = user
-        return redirect(url_for("explore"))
-    else:
-        return render_template("login.html")
+        if user != "":
+            session["user"] = user
+            return redirect(url_for("explore"))
+    return render_template("login.html", name="Capture001")
     
 
 @app.route("/explore", methods=["POST", "GET"])
@@ -21,33 +22,46 @@ def explore():
         inputs = request.form.copy()
         if inputs.get("golabel") == "Label Images":
             return redirect(url_for("label"))
-        inputs = request.form.copy()
-        # if "remove" in inputs:
-        #     del inputs["remove"]
-        #     session["tests"] = generateImages(inputs)
-        #     return render_template("filter.html", name=session["user"] + " exploring", tests = session["tests"])
-        # # selected = {}
-        # if inputs["date"] != '':
-        #     selected["date"] = inputs["date"]
-        # if inputs["location"] != '':
-        #     selected["location"] = inputs["location"]
-        # if inputs["label"] != 'Select':
-        #     selected["label"] = inputs["label"]
-        # if inputs["labeler"] != '':
-        #     selected["labeler"] = inputs["labeler"]
-        # if inputs["radarsn"] != '':
-        #     selected["radarsn"] = inputs["radarsn"]  
+        remove = inputs.get("remove")
+        if remove:
+            del inputs['remove']
+            if "live labeled" in remove:
+                del selected['live labeled']
+            elif "labeler" in remove:
+                del selected['labeler']
+            elif "label" in remove:
+                del selected['label']
+            elif "radar" in remove:
+                del selected['radarsn']
+            elif "camera" in remove:
+                del selected['camerasn']
+            elif "location" in remove:
+                del selected['location']
+            else:
+                del selected['date']
+        print(inputs)    
+        if inputs.get("filter"):  
+            del inputs['filter']
+        for k in inputs:
+            if inputs[k] != "":
+                selected[k] = inputs[k]
+        print(selected)
+        session["tests"] = generateImages(selected) 
+        return render_template("filter.html", name=session["user"] + " exploring", tests = session["tests"], selected = selected)
         
-        session["tests"] = generateImages(inputs) 
-        print(session['tests'])
-        return render_template("filter.html", name=session["user"] + " exploring", tests = session["tests"])
     else:
         if "user" in session:
             session["tests"] = generateFieldTests()
             return render_template("filter.html", name=session["user"] + " exploring", tests = session["tests"])
         else:
             return redirect(url_for("login"))
-        
+
+
+@app.route('/uploads/<name>')
+def sendfiletest(name):
+    test_url = "C:/Users/sdaga/Desktop/" + name + ".png"
+    return send_file(test_url, mimetype='image/jpg')
+
 @app.route("/label", methods=["POST", "GET"])
 def label():
     if request.method == 'GET':
@@ -56,7 +70,6 @@ def label():
                 session['i'] += 1
             else:
                 session['i'] = 0
-            print(session['tests'])
             test = session['tests'][session['i']]
             return render_template("view.html", name = session["user"] + " viewing", 
                                 test=test, index = session['i'], total = len(session['tests']))
@@ -72,11 +85,13 @@ def test():
     return render_template("search.html")
 
 def generateImages(inputs):
-    tests = session["tests"]
+    tests = generateFieldTests()
+    if len(list(inputs.values())) == 0:
+        return tests
     select = []
     for test in tests:
-        for input in inputs:
-            if inputs[input] in test:
+        for v in inputs.values():
+            if v in test:
                 select.append(test)
     return select
 
@@ -103,7 +118,7 @@ def generateFieldTests():
             label = "Person"
             secondLabel = 'UFO'
         fieldTests.append(["2023-05-"+f'{i:02d}', "lat,long", 
-                           [[label, "sid", True], [secondLabel, "akhil", False]], "RADARSNXXXX", "CAMERASNXXXX"])
+                           [[label, "sid", True], [secondLabel, "akhil", False]], "RADARSNXXXX", "CAMERASNXXXX", "Capture001"])
     return fieldTests
   
 if __name__ == "__main__":

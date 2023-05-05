@@ -46,25 +46,49 @@
                     <th>Date
                         <p><input type="date" name="date" /></p>
                         {% if "date" in selected %}
-                            <p><input type="submit" name= "remove" value= {{selected[date]}}  /></p>
+                            <p><input type="submit" name= "remove" value= "remove date filter"  /></p>
                         {% endif %}
                     </th>
                     <th>Location
                         <p><input type="text" name="location" /></p>
+                        {% if "location" in selected %}
+                            <p><input type="submit" name= "remove" value= "remove location filter"  /></p>
+                        {% endif %}
                     </th>
-                    <th>Labels
+                    <th>Label
                         <p><select name="label">
-                        <option label="Select" value="Select"></option>
+                        <option label="Select" value=""></option>
                         <option label="Drone" value="Drone"></option>
                         <option label="Bird" value="Bird"></option>
                         <option label="Person" value="Person"></option>
                         <option label="UFO" value="UFO"></option> </select></p>
+                        {% if "label" in selected %}
+                            <p><input type="submit" name= "remove" value= "remove label filter"  /></p>
+                        {% endif %}
+                    </th>
+                    <th>Labeler
+                        <p><input type="text" name="labeler" /></p>
+                        {% if "labeler" in selected %}
+                            <p><input type="submit" name= "remove" value= "remove labeler filter"  /></p>
+                        {% endif %}
+                    </th>
+                    <th>Live Labeled
+                        <p><input type="text" name="live labeled" /></p>
+                        {% if "live labeled" in selected %}
+                            <p><input type="submit" name= "remove" value= "remove live labeled filter"  /></p>
+                        {% endif %}
                     </th>
                     <th>Radar SN
                         <p><input type="text" name="radarsn" /></p>
+                        {% if "radarsn" in selected %}
+                            <p><input type="submit" name= "remove" value= "remove radar filter"  /></p>
+                        {% endif %}
                     </th>
                     <th>Camera SN
-                        <p><input type="text" name="radarsn" /></p>
+                        <p><input type="text" name="camerasn" /></p>
+                        {% if "camerasn" in selected %}
+                            <p><input type="submit" name= "remove" value= "remove camera filter"  /></p>
+                        {% endif %}
                     </th>
                     <th>Images
                         <input type="submit" name= "golabel" value="Label Images"/>
@@ -79,10 +103,24 @@
                 <tr data-grid-item>
                     <td class="date">{{x[0]}}</td>
                     <td class="location">{{x[1]}}</td>
-                    <td class="labels">{{x[2]}}</td>
+                    <td class="label">
+                        {% for z in x[2] %}
+                        <p> {{z[0]}} </p>
+                        {% endfor %}
+                    </td>
+                    <td class="labels">
+                        {% for z in x[2] %}
+                           <p> {{z[1]}} </p>
+                        {% endfor %}
+                    </td>
+                    <td class="labels">
+                        {% for z in x[2] %}
+                        <p> {{z[2]}} </p>
+                        {% endfor %}
+                    </td>
                     <td class="radarsn">{{x[3]}}</td>
                     <td class="camerasn">{{x[4]}}</td>
-                    <td class="images"><img src="https://www.example.com/images/dinosaur.jpg" alt="Dinosaur" /></td>
+                    <td class="images"><img src="{{ url_for('sendfiletest', name=x[5]) }}" height="500px" width="500px" alt="test"></td>
                 </tr>
                 {% endfor %}
             </tbody>
