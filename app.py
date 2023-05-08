@@ -20,6 +20,7 @@ def login():
 def explore():
     if request.method == "POST":
         inputs = request.form.copy()
+        print(inputs)
         if inputs.get("golabel") == "Label Images":
             return redirect(url_for("label"))
         remove = inputs.get("remove")
@@ -39,8 +40,7 @@ def explore():
                 del selected['location']
             else:
                 del selected['date']
-        print(inputs)    
-        if inputs.get("filter"):  
+        if inputs.get('filter'):  
             del inputs['filter']
         for k in inputs:
             if inputs[k] != "":
@@ -66,17 +66,29 @@ def sendfiletest(name):
 def label():
     if request.method == 'GET':
         if "tests" in session:
-            if 'i' in session:
-                session['i'] += 1
-            else:
-                session['i'] = 0
+            session['i'] = 0
             test = session['tests'][session['i']]
             return render_template("view.html", name = session["user"] + " viewing", 
                                 test=test, index = session['i'], total = len(session['tests']))
         else:
             return redirect(url_for("login"))
     else:
-        x = requests.post('url', json = {'label' : [request.form['label'], session['user'], False]})
+        if 'next' in request.form:
+            session['i'] += 1
+            if session['i'] > len(session['tests']) - 1:
+                session['i'] = 0
+            test = session['tests'][session['i']]
+            return render_template("view.html", name = session["user"] + " viewing", 
+                                test=test, index = session['i'] + 1, total = len(session['tests']))
+        if 'prev' in request.form:
+            session['i'] -= 1
+            if session['i'] < 0:
+                session['i'] = len(session['tests']) - 1
+            test = session['tests'][session['i']]
+            return render_template("view.html", name = session["user"] + " viewing", 
+                                test=test, index = session['i'] + 1, total = len(session['tests']))
+        return redirect(url_for("login"))
+        #x = requests.post('url', json = {'label' : [request.form['label'], session['user'], False]})
 
 @app.route("/test")
 def test():

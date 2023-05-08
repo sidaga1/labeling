@@ -56,12 +56,12 @@
                         {% endif %}
                     </th>
                     <th>Label
-                        <p><select name="label">
-                        <option label="Select" value=""></option>
-                        <option label="Drone" value="Drone"></option>
-                        <option label="Bird" value="Bird"></option>
-                        <option label="Person" value="Person"></option>
-                        <option label="UFO" value="UFO"></option> </select></p>
+                        <input type="submit" value= "apply label"  />
+                        <div id="dropdown">
+                            <input type="text" name="label" id="input" placeholder="Search device ...">
+                        </div>
+                        <script src="{{ url_for('static', filename='searchlabels.js') }}"></script>
+                        
                         {% if "label" in selected %}
                             <p><input type="submit" name= "remove" value= "remove label filter"  /></p>
                         {% endif %}

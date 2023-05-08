@@ -1,18 +1,65 @@
 {% extends 'viewbase.html' %}
 
 {% block content %}
-    <h1>{% block title %} {{name}} {% endblock %}</h1>
-        <p>{{test}}</p>
-        <p>{{index}}</p>
-        <p>{{total}}</p>
-    <form action="#" method="post">
-        <p>Label:</p>
-        <p><select name="label">
-            <option label="Select" value="Select"></option>
-            <option label="Drone" value="Drone"></option>
-            <option label="Bird" value="Bird"></option>
-            <option label="Person" value="Person"></option>
-            <option label="UFO" value="UFO"></option> </select>
-        <input type="submit" value="label images"/></p>
-    </form>
+<style>
+    #buttons {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 10px;
+      }
+
+      button {
+        padding: 5px 10px;
+        border: none;
+        border-radius: 5px;
+        background-color: #4CAF50;
+        color: white;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background-color: #3E8E41;
+      }
+
+      button:disabled {
+        background-color: #ccc;
+        cursor: default;
+      }
+
+      #counter {
+        margin-top: 10px;
+        text-align: left;
+        font-size: 14px;
+      }
+</style>
+    <p>
+        {% block title %}
+        {% for z in test%}
+        {{z}}
+        {% endfor %}
+        {% endblock %}
+    </p>
+    <img src="{{ url_for('sendfiletest', name=test[5]) }}" height="500px" width="500px" alt="test">
+    <div id="buttons">
+        <form action="#" method="post">
+        <button id="prev" name="prev">&lt;&lt; Back</button>
+        <button id="next" name="next">&gt;&gt; Forward</button>
+        </form>
+      </div>
+    <div id="counter">({{index}}/{{total}})</div>
+    
+    <head> 
+        <style>
+            .dropdown-item {display: block;}
+        </style>
+    </head>
+    <body>
+        <form action="#" method="post">
+          <input type="submit" name= "apply label" value= "apply label"  />
+          <div id="dropdown">
+              <input type="text" name="input" id="input" placeholder="Search label">
+          </div>
+          <script src="{{ url_for('static', filename='searchlabels.js') }}"></script>
+        </form>
+    </body>
 {% endblock %}
