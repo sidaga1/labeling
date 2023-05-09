@@ -69,7 +69,7 @@ def label():
             session['i'] = 0
             test = session['tests'][session['i']]
             return render_template("view.html", name = session["user"] + " viewing", 
-                                test=test, index = session['i'], total = len(session['tests']))
+                                test=test, index = session['i'] + 1, total = len(session['tests']))
         else:
             return redirect(url_for("login"))
     else:
@@ -105,6 +105,10 @@ def generateImages(inputs):
         for v in inputs.values():
             if v in test:
                 select.append(test)
+            elif v in test[2][0]:
+                select.append(test)
+            elif v in test[2][1]:
+                select.append(test)
     return select
 
 def generateFieldTests():
@@ -118,17 +122,17 @@ def generateFieldTests():
         label = ""
         secondLabel = ""
         if i % 4 == 0:
-            label = "Drone"
-            secondLabel = 'Bird'
+            label = "airborne"
+            secondLabel = 'airborne.projectile'
         elif i % 3 == 0:
-            label = "Bird"
-            secondLabel = 'Drone'
+            label = "ground.animal"
+            secondLabel = 'watercraft.kayak'
         elif i % 2 == 0:
-            label = "UFO"
-            secondLabel = 'Person'
+            label = "watercraft.ferry"
+            secondLabel = 'ground.animal.human'
         else:
-            label = "Person"
-            secondLabel = 'UFO'
+            label = "test.arts"
+            secondLabel = 'clutter.plants'
         fieldTests.append(["2023-05-"+f'{i:02d}', "lat,long", 
                            [[label, "sid", True], [secondLabel, "akhil", False]], "RADARSNXXXX", "CAMERASNXXXX", "Capture001"])
     return fieldTests
