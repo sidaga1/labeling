@@ -44,8 +44,8 @@
                 <tr>
                     <form action="#" method="post">
                     <th>Date
-                        <p><input type="date" name="date" /></p>
-                        {% if "date" in selected %}
+                        <p><input type="date" name="timestampInDays" /></p>
+                        {% if "timestampInDays" in selected %}
                             <p><input type="submit" name= "remove" value= "remove date filter"  /></p>
                         {% endif %}
                     </th>
@@ -66,26 +66,26 @@
                         {% endif %}
                     </th>
                     <th>Labeler
-                        <p><input type="text" name="labeler" /></p>
-                        {% if "labeler" in selected %}
+                        <p><input type="text" name="email" /></p>
+                        {% if "email" in selected %}
                             <p><input type="submit" name= "remove" value= "remove labeler filter"  /></p>
                         {% endif %}
                     </th>
                     <th>Live Labeled
-                        <p><input type="text" name="live labeled" /></p>
-                        {% if "live labeled" in selected %}
+                        <p><input type="text" name="livelabelled" /></p>
+                        {% if "livelabelled" in selected %}
                             <p><input type="submit" name= "remove" value= "remove live labeled filter"  /></p>
                         {% endif %}
                     </th>
                     <th>Radar SN
-                        <p><input type="text" name="radarsn" /></p>
-                        {% if "radarsn" in selected %}
+                        <p><input type="text" name="radarSerialNumber" /></p>
+                        {% if "radarSerialNumber" in selected %}
                             <p><input type="submit" name= "remove" value= "remove radar filter"  /></p>
                         {% endif %}
                     </th>
                     <th>Camera SN
-                        <p><input type="text" name="camerasn" /></p>
-                        {% if "camerasn" in selected %}
+                        <p><input type="text" name="cameraSerialNumber" /></p>
+                        {% if "cameraSerialNumber" in selected %}
                             <p><input type="submit" name= "remove" value= "remove camera filter"  /></p>
                         {% endif %}
                     </th>
@@ -112,14 +112,14 @@
                            <p> {{z[1]}} </p>
                         {% endfor %}
                     </td>
-                    <td class="labels">
+                    <td class="labeller">
                         {% for z in x[2] %}
                         <p> {{z[2]}} </p>
                         {% endfor %}
                     </td>
                     <td class="radarsn">{{x[3]}}</td>
                     <td class="camerasn">{{x[4]}}</td>
-                    <td class="images"><img src="{{ url_for('sendfiletest', name=x[5]) }}" height="500px" width="500px" alt="test"></td>
+                    <td class="images"><img src="{{ url_for('sendfiletest', name=x[5]) }}" height="500px" width="500px" alt="object"></td>
                 </tr>
                 {% endfor %}
             </tbody>
